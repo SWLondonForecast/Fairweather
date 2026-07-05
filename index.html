@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWLondon Forecast | Somerset & London Weather</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>SWLondon Forecast</h1>
+      <p>Real-time weather for Somerset & London</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Location Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-location="london">🌆 London</button>
+      <button class="tab-btn" data-location="somerset">🌳 Somerset (Taunton)</button>
+    </div>
+
+    <!-- Current Weather -->
+    <div id="current-weather" class="current-card">
+      <div class="weather-main">
+        <div id="temp" class="temperature">--°C</div>
+        <div id="condition" class="condition">--</div>
+        <div id="location-name" class="location">London, UK</div>
+      </div>
+      <div class="details">
+        <p>Feels like: <span id="feels-like">--</span>°C</p>
+        <p>Humidity: <span id="humidity">--</span>%</p>
+        <p>Wind: <span id="wind">--</span> km/h</p>
+      </div>
+    </div>
+
+    <!-- Hourly Forecast -->
+    <h2>Hourly Forecast</h2>
+    <div id="hourly" class="hourly-grid"></div>
+
+    <!-- Daily Forecast -->
+    <h2>7-Day Forecast</h2>
+    <div id="daily" class="daily-grid"></div>
+  </main>
+
+  <footer>
+    <p>Data from Open-Meteo • Made for Somerset & London</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
