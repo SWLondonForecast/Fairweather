@@ -26,10 +26,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
       text-align: center;
     }
-    .status-section h2 {
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-    }
+    .status-section h2 { margin-bottom: 15px; font-size: 1.5rem; }
 
     /* Warnings */
     .warnings { margin: 1.5rem 0; display: flex; flex-direction: column; gap: 12px; }
@@ -83,6 +80,21 @@
     .temp { font-size: 4.5rem; font-weight: 700; line-height: 1; }
     .location { font-size: 1.3rem; margin-top: 8px; opacity: 0.9; }
 
+    /* Radar Map */
+    .radar-section {
+      margin: 3rem 0;
+      text-align: center;
+    }
+    .radar-section h2 { margin-bottom: 15px; }
+    iframe {
+      width: 100%;
+      max-width: 1000px;
+      height: 520px;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
     .last-updated { text-align: center; margin: 25px 0; opacity: 0.7; }
   </style>
 </head>
@@ -95,7 +107,7 @@
   </header>
 
   <main class="container">
-    <!-- Website Status Section -->
+    <!-- Website Status -->
     <div class="status-section">
       <h2>🌐 Website Current Status</h2>
       <iframe src="https://swlforecast.betteruptime.com/badge?theme=dark" 
@@ -121,6 +133,13 @@
 
     <!-- Places Grid -->
     <div id="places-grid" class="places-grid"></div>
+
+    <!-- Rainfall Radar Map -->
+    <div class="radar-section">
+      <h2>🌧️ Live Rainfall Radar (UK)</h2>
+      <iframe src="https://www.rainviewer.com/map.html?loc=51.5,-0.1,8" allowfullscreen></iframe>
+      <p style="margin-top: 10px; opacity: 0.7;">Interactive radar — zoom and pan to see Somerset & London</p>
+    </div>
 
     <p id="last-updated" class="last-updated">Last updated: just now</p>
   </main>
@@ -148,7 +167,7 @@
       });
     }
 
-    // Locations & Weather
+    // Locations
     const allPlaces = {
       london: [
         { id: "london", name: "London (Central)", lat: 51.5074, lon: -0.1278 },
