@@ -17,6 +17,21 @@
     header { text-align: center; padding: 2rem 0; }
     h1 { font-size: 2.8rem; background: linear-gradient(to right, #60a5fa, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
+    /* Warnings */
+    .warnings { margin: 1.5rem 0; display: flex; flex-direction: column; gap: 12px; }
+    .warning {
+      padding: 16px 20px;
+      border-radius: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    .yellow { background: #facc15; color: #1e2937; }
+    .amber { background: #f59e0b; color: #1e2937; }
+    .red { background: #ef4444; color: white; }
+
     .tabs {
       display: flex;
       justify-content: center;
@@ -49,29 +64,27 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
-    .weather-main {
-      display: flex;
-      flex-direction: column;
+    .temp { font-size: 4.5rem; font-weight: 700; line-height: 1; }
+    .location { font-size: 1.3rem; margin-top: 8px; opacity: 0.9; }
+
+    /* Radar Map */
+    .radar-section {
+      margin: 3rem 0;
+      text-align: center;
     }
-    .temp {
-      font-size: 4.5rem;
-      font-weight: 700;
-      line-height: 1;
-    }
-    .location {
-      font-size: 1.3rem;
-      margin-top: 8px;
-      opacity: 0.9;
-    }
-    .details {
-      text-align: right;
-      font-size: 1.05rem;
-      line-height: 1.7;
+    .radar-section h2 { margin-bottom: 15px; }
+    iframe {
+      width: 100%;
+      max-width: 1000px;
+      height: 500px;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    .last-updated { text-align: center; margin: 20px 0; opacity: 0.7; }
+    .last-updated { text-align: center; margin: 25px 0; opacity: 0.7; }
   </style>
 </head>
 <body>
@@ -83,65 +96,52 @@
   </header>
 
   <main class="container">
+    <!-- Warnings -->
+    <div class="warnings" id="warnings"></div>
+
     <!-- Main Tabs -->
     <div class="tabs">
       <button class="tab-btn active" data-section="london">🌆 London Area</button>
       <button class="tab-btn" data-section="somerset">🌳 Somerset</button>
     </div>
 
-    <main class="container">
-    <!-- === WARNINGS SECTION === -->
-    <div class="warnings" id="warnings">
-      <!-- Warnings will appear here automatically -->
-    </div>
-<script> 
-      // ====================== WARNINGS CONFIG ======================
-    const warningsConfig = [
-      {
-        type: "yellow",
-        title: "Yellow Warning",
-        desc: "Yellow Warning Enforced In the UK",
-        visible: true
-      },
-      {
-        type: "amber",
-        title: "Amber Warning",
-        desc: "Threat to life and Environment",
-        visible: false
-      },
-      {
-        type: "red",
-        title: "Red Warning",
-        desc: "Danger to Life and Environment",
-        visible: false
-      }
-    ];
-
-    // Render warnings
-    function renderWarnings() {
-      const container = document.getElementById('warnings');
-      container.innerHTML = '';
-
-      const activeWarnings = warningsConfig.filter(w => w.visible);
-
-      activeWarnings.forEach(w => {
-        const div = document.createElement('div');
-        div.className = `warning ${w.type}`;
-        div.innerHTML = `
-          <strong>${w.title}</strong>
-          <span>${w.desc}</span>
-        `;
-        container.appendChild(div);
-      });
-    }
-
     <!-- Places Grid -->
     <div id="places-grid" class="places-grid"></div>
+
+    <!-- Severe Weather Radar -->
+    <div class="radar-section">
+      <h2>🌧️ Severe Weather Radar (UK)</h2>
+      <iframe src="https://www.rainviewer.com/map.html?loc=51.5,-0.1,8" allowfullscreen></iframe>
+      <p style="margin-top:10px; opacity:0.6;">Live precipitation radar • Zoom & move around</p>
+    </div>
 
     <p id="last-updated" class="last-updated">Last updated: just now</p>
   </main>
 
+  <footer style="text-align:center; padding:2rem; opacity:0.6;">
+    Data from Open-Meteo • Auto-updates every 15 minutes
+  </footer>
+
   <script>
+    // Warnings
+    const warningsConfig = [
+      { type: "yellow", title: "Yellow Warning", desc: "Yellow Warning Enforced In the UK", visible: true },
+      { type: "amber", title: "Amber Warning", desc: "Threat to life and Environment", visible: false },
+      { type: "red", title: "Red Warning", desc: "Danger to Life and Environment", visible: false }
+    ];
+
+    function renderWarnings() {
+      const container = document.getElementById('warnings');
+      container.innerHTML = '';
+      warningsConfig.filter(w => w.visible).forEach(w => {
+        const div = document.createElement('div');
+        div.className = `warning ${w.type}`;
+        div.innerHTML = `<strong>${w.title}</strong> — ${w.desc}`;
+        container.appendChild(div);
+      });
+    }
+
+    // Locations
     const allPlaces = {
       london: [
         { id: "london", name: "London (Central)", lat: 51.5074, lon: -0.1278 },
@@ -176,24 +176,17 @@
       const grid = document.getElementById('places-grid');
       grid.innerHTML = '';
 
-      const places = allPlaces[section];
-
-      for (const place of places) {
+      for (const place of allPlaces[section]) {
         const weather = await fetchPlaceWeather(place);
-
         const card = document.createElement('div');
         card.className = 'weather-card';
         card.innerHTML = `
-          <div class="weather-main">
+          <div>
             <div class="temp">${weather ? weather.temp : '--'}°C</div>
             <div class="location">${place.name}</div>
           </div>
-          <div class="details">
-            ${weather ? `
-              Feels like: ${weather.feels}°C<br>
-              Humidity: ${weather.humidity}%<br>
-              Wind: ${weather.wind} km/h
-            ` : 'Loading...'}
+          <div class="details" style="text-align:right; line-height:1.7;">
+            ${weather ? `Feels like: ${weather.feels}°C<br>Humidity: ${weather.humidity}%<br>Wind: ${weather.wind} km/h` : 'Loading...'}
           </div>
         `;
         grid.appendChild(card);
@@ -211,12 +204,13 @@
     });
 
     // Initial load
+    renderWarnings();
     renderSection('london');
 
-    // Auto refresh every 15 minutes
+    // Auto refresh
     setInterval(() => {
-      const activeSection = document.querySelector('.tab-btn.active').dataset.section;
-      renderSection(activeSection);
+      const active = document.querySelector('.tab-btn.active').dataset.section;
+      renderSection(active);
     }, 15 * 60 * 1000);
   </script>
 </body>
