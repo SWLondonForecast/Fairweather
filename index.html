@@ -15,25 +15,24 @@
       line-height: 1.6;
     }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-    header {
-      text-align: center;
-      padding: 3rem 0 2rem;
-      background: rgba(15, 23, 42, 0.95);
-      border-bottom: 1px solid #334155;
-    }
-    h1 {
-      font-size: 3.2rem;
-      background: linear-gradient(to right, #60a5fa, #a5b4fc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .tabs {
+    header { text-align: center; padding: 3rem 0 2rem; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid #334155; }
+    h1 { font-size: 3.2rem; background: linear-gradient(to right, #60a5fa, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* Warning Banners */
+    .warnings { margin: 1rem 0; display: flex; flex-direction: column; gap: 8px; }
+    .warning {
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-weight: 600;
       display: flex;
-      justify-content: center;
+      align-items: center;
       gap: 12px;
-      margin: 2rem 0;
-      flex-wrap: wrap;
     }
+    .yellow { background: #facc15; color: #1e2937; }
+    .amber { background: #f59e0b; color: #1e2937; }
+    .red { background: #ef4444; color: white; }
+
+    .tabs { display: flex; justify-content: center; gap: 12px; margin: 1.5rem 0; flex-wrap: wrap; }
     .tab-btn {
       padding: 14px 32px;
       border: none;
@@ -42,12 +41,9 @@
       border-radius: 50px;
       cursor: pointer;
       font-weight: 600;
-      transition: all 0.3s;
     }
-    .tab-btn.active {
-      background: #3b82f6;
-      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
-    }
+    .tab-btn.active { background: #3b82f6; box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4); }
+
     .current-card {
       background: rgba(255,255,255,0.1);
       backdrop-filter: blur(12px);
@@ -60,31 +56,8 @@
       border: 1px solid rgba(255,255,255,0.15);
     }
     .temperature { font-size: 6rem; font-weight: 700; line-height: 1; }
-    .details p { margin: 8px 0; }
-    .hourly-grid, .daily-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-    .card {
-      background: rgba(255,255,255,0.08);
-      padding: 1.2rem;
-      border-radius: 18px;
-      text-align: center;
-      transition: transform 0.3s;
-    }
-    .card:hover { transform: translateY(-6px); }
-    footer {
-      text-align: center;
-      padding: 3rem 0;
-      opacity: 0.7;
-      font-size: 0.95rem;
-    }
-    @media (max-width: 768px) {
-      .current-card { grid-template-columns: 1fr; text-align: center; }
-      .temperature { font-size: 4.5rem; }
-    }
+
+    footer { text-align: center; padding: 3rem 0; opacity: 0.7; font-size: 0.95rem; }
   </style>
 </head>
 <body>
@@ -96,6 +69,11 @@
   </header>
 
   <main class="container">
+    <!-- === WARNINGS SECTION === -->
+    <div class="warnings" id="warnings">
+      <!-- Warnings will appear here automatically -->
+    </div>
+
     <div class="tabs">
       <button class="tab-btn active" data-location="london">🌆 London</button>
       <button class="tab-btn" data-location="somerset">🌳 Somerset (Taunton)</button>
@@ -104,7 +82,7 @@
     <div id="current-weather" class="current-card">
       <div>
         <div id="temp" class="temperature">--°C</div>
-        <div id="condition" class="condition" style="font-size:1.4rem; margin-top:0.5rem;">--</div>
+        <div id="condition" style="font-size:1.4rem; margin-top:0.5rem;">--</div>
         <div id="location-name" style="margin-top:1rem; font-size:1.2rem;">London, UK</div>
       </div>
       <div class="details">
@@ -114,18 +92,57 @@
       </div>
     </div>
 
-    <h2 style="margin: 2rem 0 1rem;">Hourly Forecast</h2>
-    <div id="hourly" class="hourly-grid"></div>
+    <p class="last-updated" id="last-updated" style="text-align:center; margin:10px 0;">Last updated: just now</p>
 
-    <h2 style="margin: 2rem 0 1rem;">7-Day Forecast</h2>
-    <div id="daily" class="daily-grid"></div>
+    <!-- More sections can be added later -->
   </main>
 
   <footer>
-    <p>Data from Open-Meteo • Real-time forecasts for Somerset & London</p>
+    <p>Data from Open-Meteo • Auto-updates every 15 minutes</p>
   </footer>
 
   <script>
+    // ====================== WARNINGS CONFIG ======================
+    const warningsConfig = [
+      {
+        type: "yellow",
+        title: "Yellow Warning",
+        desc: "Yellow Warning Enforced In the UK",
+        visible: true
+      },
+      {
+        type: "amber",
+        title: "Amber Warning",
+        desc: "Threat to life and Environment",
+        visible: false
+      },
+      {
+        type: "red",
+        title: "Red Warning",
+        desc: "Danger to Life and Environment",
+        visible: false
+      }
+    ];
+
+    // Render warnings
+    function renderWarnings() {
+      const container = document.getElementById('warnings');
+      container.innerHTML = '';
+
+      const activeWarnings = warningsConfig.filter(w => w.visible);
+
+      activeWarnings.forEach(w => {
+        const div = document.createElement('div');
+        div.className = `warning ${w.type}`;
+        div.innerHTML = `
+          <strong>${w.title}</strong>
+          <span>${w.desc}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // ====================== WEATHER ======================
     const locations = {
       london: { lat: 51.5074, lon: -0.1278, name: "London" },
       somerset: { lat: 51.019, lon: -3.100, name: "Taunton, Somerset" }
@@ -139,14 +156,14 @@
         const res = await fetch(url);
         const data = await res.json();
 
-        // Current weather
         document.getElementById('temp').textContent = Math.round(data.current.temperature_2m) + "°C";
         document.getElementById('feels-like').textContent = Math.round(data.current.apparent_temperature);
         document.getElementById('humidity').textContent = data.current.relative_humidity_2m;
         document.getElementById('wind').textContent = Math.round(data.current.wind_speed_10m);
         document.getElementById('location-name').textContent = loc.name + ", UK";
 
-        console.log("✅ Weather loaded for", loc.name);
+        const now = new Date();
+        document.getElementById('last-updated').textContent = `Last updated: ${now.toLocaleTimeString()}`;
       } catch (e) {
         console.error("Error fetching weather", e);
       }
@@ -162,7 +179,14 @@
     });
 
     // Initial load
+    renderWarnings();
     fetchWeather('london');
+
+    // Auto refresh every 15 minutes
+    setInterval(() => {
+      const activeTab = document.querySelector('.tab-btn.active');
+      fetchWeather(activeTab.dataset.location);
+    }, 15 * 60 * 1000);
   </script>
 </body>
 </html>
