@@ -89,6 +89,52 @@
       <button class="tab-btn" data-section="somerset">🌳 Somerset</button>
     </div>
 
+    <main class="container">
+    <!-- === WARNINGS SECTION === -->
+    <div class="warnings" id="warnings">
+      <!-- Warnings will appear here automatically -->
+    </div>
+<script> 
+      // ====================== WARNINGS CONFIG ======================
+    const warningsConfig = [
+      {
+        type: "yellow",
+        title: "Yellow Warning",
+        desc: "Yellow Warning Enforced In the UK",
+        visible: true
+      },
+      {
+        type: "amber",
+        title: "Amber Warning",
+        desc: "Threat to life and Environment",
+        visible: false
+      },
+      {
+        type: "red",
+        title: "Red Warning",
+        desc: "Danger to Life and Environment",
+        visible: false
+      }
+    ];
+
+    // Render warnings
+    function renderWarnings() {
+      const container = document.getElementById('warnings');
+      container.innerHTML = '';
+
+      const activeWarnings = warningsConfig.filter(w => w.visible);
+
+      activeWarnings.forEach(w => {
+        const div = document.createElement('div');
+        div.className = `warning ${w.type}`;
+        div.innerHTML = `
+          <strong>${w.title}</strong>
+          <span>${w.desc}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
     <!-- Places Grid -->
     <div id="places-grid" class="places-grid"></div>
 
