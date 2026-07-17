@@ -327,6 +327,182 @@ body.light .panel{ background: linear-gradient(155deg, rgba(255,255,255,.5), tra
   .status-nav-label{display:none}
 }
 
+
+/* ============ ACCOUNT / AUTH ============ */
+.account-btn{
+  width:auto;
+  padding:0 13px;
+  gap:7px;
+  display:flex;
+}
+.account-btn span{
+  font-size:.76rem;
+  font-weight:700;
+  white-space:nowrap;
+}
+.auth-backdrop{
+  position:fixed; inset:0; z-index:240;
+  background:rgba(4,8,18,.48);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+  opacity:0; visibility:hidden;
+  transition:opacity .3s ease, visibility .3s ease;
+}
+.auth-backdrop.open{opacity:1;visibility:visible}
+.auth-modal{
+  position:fixed; inset:0; z-index:250;
+  display:grid; place-items:center;
+  padding:18px;
+  opacity:0; visibility:hidden;
+  pointer-events:none;
+  transition:opacity .3s ease, visibility .3s ease;
+}
+.auth-modal.open{opacity:1;visibility:visible;pointer-events:auto}
+.auth-card{
+  width:min(460px,100%);
+  max-height:calc(100vh - 36px);
+  overflow-y:auto;
+  padding:22px;
+  border-radius:28px;
+  background:
+    linear-gradient(155deg,rgba(255,255,255,.08),transparent 42%),
+    var(--ink-2);
+  border:1px solid var(--line);
+  box-shadow:0 34px 100px rgba(0,0,0,.52);
+  backdrop-filter:blur(30px) saturate(160%);
+  -webkit-backdrop-filter:blur(30px) saturate(160%);
+  transform:translateY(18px) scale(.98);
+  transition:transform .35s cubic-bezier(.2,.9,.2,1);
+}
+.auth-modal.open .auth-card{transform:translateY(0) scale(1)}
+body.light .auth-card{
+  background:linear-gradient(155deg,rgba(255,255,255,.7),transparent 42%),#fff;
+}
+.auth-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:14px;
+}
+.auth-head h2{
+  font-family:var(--serif);
+  font-size:1.55rem;
+  font-weight:500;
+}
+.auth-head p{
+  margin-top:5px;
+  color:var(--text-2);
+  font-size:.82rem;
+  line-height:1.5;
+}
+.auth-tabs{
+  display:flex;gap:6px;
+  margin-top:18px;padding:5px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--glass-strong);
+}
+.auth-tab{
+  flex:1;padding:9px 12px;border:0;border-radius:999px;
+  background:transparent;color:var(--text-2);font-weight:700;font-size:.8rem;
+}
+.auth-tab.active{background:var(--accent);color:#101423}
+.auth-view{display:none;margin-top:18px}
+.auth-view.active{display:block}
+.auth-field{display:grid;gap:7px;margin-top:12px}
+.auth-field label{
+  color:var(--text-2);
+  font-size:.75rem;
+  font-weight:700;
+}
+.auth-field input{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:var(--glass-strong);
+  color:var(--text-1);
+}
+.auth-field input::placeholder{color:var(--text-3)}
+.auth-primary{
+  width:100%;
+  margin-top:16px;
+  padding:12px 14px;
+  border:0;border-radius:14px;
+  background:var(--accent);
+  color:#101423;
+  font-weight:800;
+}
+.auth-secondary{
+  width:100%;
+  margin-top:9px;
+  padding:11px 14px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--glass-strong);
+  color:var(--text-1);
+  font-weight:700;
+}
+.auth-link{
+  display:block;
+  margin:12px auto 0;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:var(--accent);
+  font-size:.78rem;
+  font-weight:700;
+}
+.auth-note{
+  margin-top:14px;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  color:var(--text-3);
+  background:var(--glass);
+  font-size:.72rem;
+  line-height:1.5;
+}
+.auth-message{
+  min-height:18px;
+  margin-top:12px;
+  color:var(--text-2);
+  font-size:.76rem;
+  line-height:1.4;
+}
+.auth-message.error{color:#ff9c98}
+.auth-message.success{color:#79e5ab}
+.profile-block{
+  margin-top:16px;padding:15px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:var(--glass);
+}
+.profile-row{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 0;
+}
+.profile-row + .profile-row{border-top:1px solid var(--line)}
+.profile-copy strong{display:block;font-size:.82rem}
+.profile-copy span{display:block;margin-top:3px;color:var(--text-3);font-size:.72rem}
+.sync-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 10px;border:1px solid var(--line);
+  border-radius:999px;background:var(--glass-strong);
+  color:var(--text-2);font-size:.72rem;font-weight:700;
+}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#f2a65a}
+.sync-dot.online{background:#58df98;box-shadow:0 0 12px rgba(88,223,152,.5)}
+.danger-btn{
+  width:100%;margin-top:9px;padding:11px 14px;
+  border:1px solid rgba(255,126,121,.35);
+  border-radius:14px;background:rgba(255,126,121,.08);
+  color:#ffaaa6;font-weight:700;
+}
+@media(max-width:560px){
+  .account-btn{width:40px;padding:0;display:grid}
+  .account-btn span{display:none}
+  .auth-modal{padding:8px}
+  .auth-card{max-height:calc(100vh - 16px);border-radius:24px}
+}
+
 </style>
 </head>
 <body>
@@ -340,6 +516,12 @@ body.light .panel{ background: linear-gradient(155deg, rgba(255,255,255,.5), tra
       </button>
       <button class="icon-btn status-nav-btn" id="status-btn" aria-label="Status Site" title="Status Site">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16"/><path d="M6 16V9"/><path d="M10 16V5"/><path d="M14 16v-4"/><path d="M18 16V7"/></svg>
+      </button>
+      <button class="icon-btn account-btn" id="account-btn" aria-label="Account" title="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
+        </svg>
+        <span id="account-label">Account</span>
       </button>
       <button class="icon-btn" id="settings-btn" aria-label="Settings">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15.4 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.14.37.35.7.6 1 .3.28.68.43 1.1.43H21a2 2 0 1 1 0 4h-.09c-.42 0-.8.15-1.1.43-.25.29-.46.62-.6 1Z"/></svg>
@@ -510,9 +692,111 @@ body.light .panel{ background: linear-gradient(155deg, rgba(255,255,255,.5), tra
   <button class="reset-btn" id="reset-btn" type="button">Restore defaults</button>
 </aside>
 
+
+<div class="auth-backdrop" id="auth-backdrop"></div>
+<div class="auth-modal" id="auth-modal" aria-hidden="true">
+  <div class="auth-card">
+    <div class="auth-head">
+      <div>
+        <h2 id="auth-title">Your Fairweather account</h2>
+        <p id="auth-subtitle">Sync your forecast preferences across browsers and devices.</p>
+      </div>
+      <button class="icon-btn" id="close-auth" type="button" aria-label="Close account panel">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div id="signed-out-view">
+      <div class="auth-tabs">
+        <button class="auth-tab active" type="button" data-auth-tab="login">Log in</button>
+        <button class="auth-tab" type="button" data-auth-tab="signup">Sign up</button>
+      </div>
+
+      <div class="auth-view active" id="login-view">
+        <div class="auth-field">
+          <label for="login-email">Email address</label>
+          <input id="login-email" type="email" autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="auth-field">
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" autocomplete="current-password" placeholder="Your password">
+        </div>
+        <button class="auth-primary" id="login-submit" type="button">Log in and sync</button>
+        <button class="auth-link" id="forgot-password" type="button">Forgot your password?</button>
+      </div>
+
+      <div class="auth-view" id="signup-view">
+        <div class="auth-field">
+          <label for="signup-name">Display name</label>
+          <input id="signup-name" type="text" autocomplete="name" placeholder="Your name">
+        </div>
+        <div class="auth-field">
+          <label for="signup-email">Email address</label>
+          <input id="signup-email" type="email" autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="auth-field">
+          <label for="signup-password">Password</label>
+          <input id="signup-password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters">
+        </div>
+        <button class="auth-primary" id="signup-submit" type="button">Create account</button>
+      </div>
+
+      <button class="auth-secondary" id="continue-guest" type="button">Continue as guest</button>
+      <div class="auth-note">
+        Guest mode remains available. Guest preferences stay on this browser only. Account syncing begins after Supabase is connected.
+      </div>
+    </div>
+
+    <div id="signed-in-view" class="hidden">
+      <div class="profile-block">
+        <div class="profile-row">
+          <div class="profile-copy"><strong id="profile-name">Fairweather user</strong><span id="profile-email">—</span></div>
+          <span class="sync-pill"><span class="sync-dot" id="sync-dot"></span><span id="sync-label">Local only</span></span>
+        </div>
+        <div class="profile-row">
+          <div class="profile-copy"><strong>Saved region</strong><span id="profile-region">London</span></div>
+        </div>
+        <div class="profile-row">
+          <div class="profile-copy"><strong>Cloud preferences</strong><span>Theme, units, wallpaper, sections and event theme</span></div>
+          <button class="auth-secondary" id="sync-now" type="button" style="width:auto;margin:0">Sync now</button>
+        </div>
+      </div>
+      <button class="auth-secondary" id="logout-submit" type="button">Log out</button>
+      <button class="danger-btn" id="delete-account" type="button">Delete account</button>
+    </div>
+
+    <div class="auth-message" id="auth-message" aria-live="polite"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast">Saved</div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+
+/* ---------- Supabase account configuration ---------- */
+/*
+  Replace these two values with your Supabase project details:
+  1. Project Settings > API > Project URL
+  2. Project Settings > API > anon public key
+*/
+const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
+const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+
+const supabaseConfigured =
+  SUPABASE_URL.startsWith("https://") &&
+  !SUPABASE_URL.includes("PASTE_") &&
+  SUPABASE_ANON_KEY.length > 40 &&
+  !SUPABASE_ANON_KEY.includes("PASTE_");
+
+const supabaseClient = supabaseConfigured && window.supabase
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+
+let currentUser = null;
+let cloudSyncBusy = false;
+
 const defaults = {
   theme:"dark", wallpaper:"default", unit:"celsius",
   showNews:true, showMaps:true, region:"london",
@@ -520,7 +804,15 @@ const defaults = {
 };
 let settings = load();
 function load(){ try{ return {...defaults, ...JSON.parse(localStorage.getItem("fairweatherSettings")||"{}")} }catch{ return {...defaults} } }
-function save(msg){ localStorage.setItem("fairweatherSettings", JSON.stringify(settings)); if(msg) toast(msg); }
+let cloudSaveTimer;
+function save(msg){
+  localStorage.setItem("fairweatherSettings", JSON.stringify(settings));
+  if(msg) toast(msg);
+  clearTimeout(cloudSaveTimer);
+  if(currentUser && supabaseClient){
+    cloudSaveTimer = setTimeout(()=>savePreferencesToCloud(false),700);
+  }
+}
 
 const $ = s=>document.querySelector(s);
 let toastTimer;
@@ -915,12 +1207,260 @@ const reactionZone=$("#reaction-zone"),reactionBtn=$("#reaction-button"),reactio
 function resetReactionVisual(){ reactionZone.classList.remove("ready","false-start"); reactionReady=false; }
 reactionBtn.addEventListener("click",()=>{ if(reactionReady){ const result=Math.round(performance.now()-reactionStartedAt); reactionNote.textContent=`Reaction time: ${result} ms`; reactionBtn.textContent="Start another round"; clearTimeout(reactionTimeout); reactionWaiting=false; resetReactionVisual(); return; } if(reactionWaiting){ clearTimeout(reactionTimeout); reactionWaiting=false; reactionZone.classList.add("false-start"); reactionNote.textContent="False start — wait for the green bell."; reactionBtn.textContent="Try again"; setTimeout(resetReactionVisual,650); return; } resetReactionVisual(); reactionWaiting=true; reactionNote.textContent="Wait for it…"; reactionBtn.textContent="Do not press yet"; reactionTimeout=setTimeout(()=>{ reactionWaiting=false; reactionReady=true; reactionStartedAt=performance.now(); reactionZone.classList.add("ready"); reactionNote.textContent="GO! Press the button now!"; reactionBtn.textContent="Hit the bell!"; },1200+Math.random()*2600); });
 
+
+/* ---------- account panel ---------- */
+const authModal = $("#auth-modal");
+const authBackdrop = $("#auth-backdrop");
+const authMessage = $("#auth-message");
+
+function setAuthMessage(message="", type=""){
+  authMessage.textContent = message;
+  authMessage.className = "auth-message" + (type ? ` ${type}` : "");
+}
+
+function openAuth(){
+  authModal.classList.add("open");
+  authBackdrop.classList.add("open");
+  authModal.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+  refreshAccountView();
+}
+function closeAuth(){
+  authModal.classList.remove("open");
+  authBackdrop.classList.remove("open");
+  authModal.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+  setAuthMessage();
+}
+$("#account-btn").addEventListener("click", openAuth);
+$("#close-auth").addEventListener("click", closeAuth);
+$("#auth-backdrop").addEventListener("click", closeAuth);
+$("#continue-guest").addEventListener("click", closeAuth);
+
+document.querySelectorAll("[data-auth-tab]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const tab=button.dataset.authTab;
+    document.querySelectorAll("[data-auth-tab]").forEach(b=>b.classList.toggle("active",b===button));
+    $("#login-view").classList.toggle("active",tab==="login");
+    $("#signup-view").classList.toggle("active",tab==="signup");
+    setAuthMessage();
+  });
+});
+
+function cloudPreferencePayload(){
+  return {
+    user_id: currentUser.id,
+    preferences: settings,
+    updated_at: new Date().toISOString()
+  };
+}
+
+async function savePreferencesToCloud(showMessage=true){
+  if(!supabaseClient || !currentUser || cloudSyncBusy) return;
+  cloudSyncBusy=true;
+  updateSyncStatus("Syncing…",false);
+  const {error}=await supabaseClient
+    .from("user_preferences")
+    .upsert(cloudPreferencePayload(),{onConflict:"user_id"});
+  cloudSyncBusy=false;
+  if(error){
+    updateSyncStatus("Sync failed",false);
+    if(showMessage) setAuthMessage(error.message,"error");
+    return;
+  }
+  updateSyncStatus("Synced",true);
+  if(showMessage) setAuthMessage("Your preferences are synced.","success");
+}
+
+async function loadPreferencesFromCloud(){
+  if(!supabaseClient || !currentUser) return;
+  updateSyncStatus("Loading…",false);
+  const {data,error}=await supabaseClient
+    .from("user_preferences")
+    .select("preferences")
+    .eq("user_id",currentUser.id)
+    .maybeSingle();
+
+  if(error){
+    updateSyncStatus("Local only",false);
+    setAuthMessage(error.message,"error");
+    return;
+  }
+
+  if(data?.preferences){
+    settings={...defaults,...data.preferences};
+    localStorage.setItem("fairweatherSettings",JSON.stringify(settings));
+    applyAll();
+    await renderRegion(settings.region);
+    updateSyncStatus("Synced",true);
+  }else{
+    await savePreferencesToCloud(false);
+  }
+}
+
+function updateSyncStatus(label,online){
+  $("#sync-label").textContent=label;
+  $("#sync-dot").classList.toggle("online",Boolean(online));
+}
+
+function refreshAccountView(){
+  const signedIn=Boolean(currentUser);
+  $("#signed-out-view").classList.toggle("hidden",signedIn);
+  $("#signed-in-view").classList.toggle("hidden",!signedIn);
+  $("#account-label").textContent=signedIn ? "Profile" : "Account";
+
+  if(signedIn){
+    const name=currentUser.user_metadata?.display_name || currentUser.email?.split("@")[0] || "Fairweather user";
+    $("#profile-name").textContent=name;
+    $("#profile-email").textContent=currentUser.email || "No email";
+    $("#profile-region").textContent=regionDisplayNames[settings.region] || settings.region;
+    updateSyncStatus(supabaseClient ? "Synced" : "Local only",Boolean(supabaseClient));
+  }else if(!supabaseConfigured){
+    setAuthMessage("Account screens are ready. Add your Supabase URL and anon key in the HTML to enable real login and syncing.");
+  }
+}
+
+$("#signup-submit").addEventListener("click",async()=>{
+  if(!supabaseClient){
+    setAuthMessage("Supabase is not connected yet. Add the project URL and anon key in the HTML.","error");
+    return;
+  }
+  const displayName=$("#signup-name").value.trim();
+  const email=$("#signup-email").value.trim();
+  const password=$("#signup-password").value;
+  if(!email || password.length<8){
+    setAuthMessage("Enter an email and a password with at least 8 characters.","error");
+    return;
+  }
+  setAuthMessage("Creating your account…");
+  const {data,error}=await supabaseClient.auth.signUp({
+    email,password,
+    options:{data:{display_name:displayName || "Fairweather user"}}
+  });
+  if(error){
+    setAuthMessage(error.message,"error");
+    return;
+  }
+  currentUser=data.user;
+  refreshAccountView();
+  if(data.session){
+    await savePreferencesToCloud(false);
+    setAuthMessage("Account created and preferences synced.","success");
+  }else{
+    setAuthMessage("Account created. Check your email to confirm it, then log in.","success");
+  }
+});
+
+$("#login-submit").addEventListener("click",async()=>{
+  if(!supabaseClient){
+    setAuthMessage("Supabase is not connected yet. Add the project URL and anon key in the HTML.","error");
+    return;
+  }
+  const email=$("#login-email").value.trim();
+  const password=$("#login-password").value;
+  if(!email || !password){
+    setAuthMessage("Enter your email and password.","error");
+    return;
+  }
+  setAuthMessage("Logging in…");
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error){
+    setAuthMessage(error.message,"error");
+    return;
+  }
+  currentUser=data.user;
+  refreshAccountView();
+  await loadPreferencesFromCloud();
+  setAuthMessage("Logged in. Your preferences are synced.","success");
+});
+
+$("#forgot-password").addEventListener("click",async()=>{
+  if(!supabaseClient){
+    setAuthMessage("Connect Supabase before using password reset.","error");
+    return;
+  }
+  const email=$("#login-email").value.trim();
+  if(!email){
+    setAuthMessage("Enter your email address first.","error");
+    return;
+  }
+  const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{
+    redirectTo:window.location.href
+  });
+  setAuthMessage(error ? error.message : "Password reset email sent.",error ? "error" : "success");
+});
+
+$("#logout-submit").addEventListener("click",async()=>{
+  if(supabaseClient) await supabaseClient.auth.signOut();
+  currentUser=null;
+  refreshAccountView();
+  setAuthMessage("Logged out. This browser will continue in guest mode.","success");
+});
+
+$("#sync-now").addEventListener("click",()=>savePreferencesToCloud(true));
+
+$("#delete-account").addEventListener("click",()=>{
+  setAuthMessage("For security, account deletion needs a protected server function. The button is ready but should not delete accounts directly from browser JavaScript.","error");
+});
+
+async function initialiseAuth(){
+  if(!supabaseClient){
+    refreshAccountView();
+    return;
+  }
+  const {data}=await supabaseClient.auth.getSession();
+  currentUser=data.session?.user || null;
+  refreshAccountView();
+  if(currentUser) await loadPreferencesFromCloud();
+
+  supabaseClient.auth.onAuthStateChange(async(_event,session)=>{
+    currentUser=session?.user || null;
+    refreshAccountView();
+    if(currentUser) await loadPreferencesFromCloud();
+  });
+}
+
 /* ---------- init ---------- */
 renderWarnings();
 renderNews();
 applyAll();
 renderRegion(settings.region);
+initialiseAuth();
 setInterval(()=>renderRegion(settings.region), 15*60*1000);
 </script>
+
+<!--
+SUPABASE SETUP
+
+1. Create a free Supabase project.
+2. In Authentication > URL Configuration, add your website URL.
+3. Replace SUPABASE_URL and SUPABASE_ANON_KEY in this file.
+4. Run this SQL in Supabase SQL Editor:
+
+create table public.user_preferences (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  preferences jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.user_preferences enable row level security;
+
+create policy "Users can read their preferences"
+on public.user_preferences for select
+using (auth.uid() = user_id);
+
+create policy "Users can insert their preferences"
+on public.user_preferences for insert
+with check (auth.uid() = user_id);
+
+create policy "Users can update their preferences"
+on public.user_preferences for update
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+Account deletion should be implemented later with a secure Supabase Edge Function.
+Never place a service-role key in this HTML.
+-->
+
 </body>
 </html>
